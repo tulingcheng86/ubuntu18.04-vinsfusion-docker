@@ -1,1 +1,1 @@
-dockerhub ------ https://hub.docker.com/r/tlc868686/18.04-ros-melodic-vinsfusion/tags
+dockerhub ------docker pull shangyeyuancainai/18.04-vins-fusion:latest
