@@ -25,14 +25,17 @@ RUN   if [ "x$(nproc)" = "x1" ] ; then export USE_PROC=1 ; \
       mkdir build && cd build && \
       cmake .. && \
       make -j8 install && \
-      rm -rf ../../ceres-solver && \
-      mkdir -p $CATKIN_WS/src/VINS-Fusion/
+      rm -rf ../../ceres-solver
+      #mkdir -p $CATKIN_WS/src/VINS-Fusion/
 RUN sudo apt update
 RUN apt-get install -y ros-melodic-rviz
 # Copy VINS-Fusion
-COPY ./ $CATKIN_WS/src/VINS-Fusion/
+#COPY ./ $CATKIN_WS/src/VINS-Fusion/
 # use the following line if you only have this dockerfile
-# RUN git clone https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git
+# 克隆VINS-Fusion到catkin工作空间的src目录下
+RUN mkdir -p $CATKIN_WS/src && \
+    cd $CATKIN_WS/src && \
+    git clone https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git
  
 # Build VINS-Fusion
 WORKDIR $CATKIN_WS
@@ -45,3 +48,54 @@ RUN catkin config \
     catkin build && \
     sed -i '/exec "$@"/i \
             source "/root/catkin_ws/devel/setup.bash"' /ros_entrypoint.sh
+
+# 安装RealSense SDK依赖和udev
+RUN apt-get update && apt-get install -y \
+    libudev-dev pkg-config libgtk-3-dev \
+    libusb-1.0-0-dev \
+    libglfw3-dev \
+    libssl-dev \
+    udev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 复制udev规则文件到容器
+COPY config/99-realsense-libusb.rules /etc/udev/rules.d/
+
+# 克隆和编译RealSense SDK（如果需要）
+RUN git clone https://github.com/IntelRealSense/librealsense && \
+    cd librealsense && \
+    mkdir build && cd build && \
+    cmake ../ -DBUILD_EXAMPLES=true && \
+    make -j$(nproc) && \
+    make install
+   
+# 安装其他依赖
+RUN apt-get update && apt-get install -y ros-melodic-rgbd-launch && \
+    rm -rf /var/lib/apt/lists/*
+
+# 设置ROS环境
+RUN mkdir -p $CATKIN_WS/src && \
+    cd $CATKIN_WS/src && \
+    git clone -b ros1-legacy https://github.com/IntelRealSense/realsense-ros.git && \
+    git clone https://github.com/pal-robotics/ddynamic_reconfigure.git
+
+# 构建ROS工作空间
+WORKDIR $CATKIN_WS
+RUN for i in 1 2 3; do rosdep update && break || sleep 5; done
+RUN apt-get update && sudo apt-get install ros-melodic-diagnostic-updater -y
+# 使用 RUN 命令执行 rosdep install，并忽略错误，然后执行后续命令
+RUN rosdep install --from-paths src --ignore-src -r -y || true && \
+    /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
+
+# 更新.bashrc
+RUN echo "source $CATKIN_WS/devel/setup.bash" >> ~/.bashrc
+
+# 设置工作目录
+WORKDIR $CATKIN_WS
+
+COPY config /root/
+# 更新.bashrc文件（在Docker容器中通常不必要，但如果你需要，可以通过source命令手动执行）
+# RUN echo "source $CATKIN_WS/devel/setup.bash" >> ~/.bashrc
+
+# 设置容器启动时执行的命令
+CMD ["bash"]            
