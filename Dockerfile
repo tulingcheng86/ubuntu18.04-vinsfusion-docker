@@ -93,7 +93,7 @@ RUN echo "source $CATKIN_WS/devel/setup.bash" >> ~/.bashrc
 # 设置工作目录
 WORKDIR $CATKIN_WS
 
-COPY config /root/
+COPY . /root/
 # 更新.bashrc文件（在Docker容器中通常不必要，但如果你需要，可以通过source命令手动执行）
 # RUN echo "source $CATKIN_WS/devel/setup.bash" >> ~/.bashrc
 

@@ -4,7 +4,7 @@
 set -e
 
 # 移动launch文件到指定目录
-mv ~/rs_fusion_camera_stereo.launch /root/catkin_ws/src/realsense-ros/realsense2_camera/launch/
+mv /root/config/rs_fusion_camera_stereo.launch /root/catkin_ws/src/realsense-ros/realsense2_camera/launch/
 
 # 切换到catkin工作空间目录
 cd /root/catkin_ws/
@@ -16,3 +16,4 @@ catkin build
 # 注意：这一步通常是在新的终端中执行，或者在后台运行。这里为了脚本简单，直接调用。
 # 在实际使用中，你可能需要根据需求调整。
 roslaunch realsense2_camera rs_fusion_camera_stereo.launch
+
