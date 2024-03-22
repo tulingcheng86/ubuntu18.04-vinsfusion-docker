@@ -5,7 +5,7 @@ set -e
 
 # 移动launch文件到指定目录
 mv /root/config/rs_fusion_camera_stereo.launch /root/catkin_ws/src/realsense-ros/realsense2_camera/launch/
-
+mv /root/config/rs_vins_rtab.launch /root/catkin_ws/src/realsense-ros/realsense2_camera/launch/
 # 切换到catkin工作空间目录
 cd /root/catkin_ws/
 
