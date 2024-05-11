@@ -1,5 +1,13 @@
 docker build -t myapp:v2 .
 
+docker login
+
+docker tag  shangyeyuancainai/18.04-vins-fusion:v2   shangyeyuancainai/d435i-fusion-lastest:v2
+
+docker push shangyeyuancainai/d435i-fusion-lastest:v2
+
+
+
 dockerhub ------docker pull shangyeyuancainai/18.04-vins-fusion:latest
 
 
