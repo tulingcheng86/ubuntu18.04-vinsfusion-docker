@@ -27,8 +27,7 @@ RUN   if [ "x$(nproc)" = "x1" ] ; then export USE_PROC=1 ; \
       make -j8 install && \
       rm -rf ../../ceres-solver
       #mkdir -p $CATKIN_WS/src/VINS-Fusion/
-RUN sudo apt update
-RUN apt-get install -y ros-melodic-rviz
+RUN apt-get update && apt-get install -y ros-melodic-rviz
 # Copy VINS-Fusion
 #COPY ./ $CATKIN_WS/src/VINS-Fusion/
 # use the following line if you only have this dockerfile

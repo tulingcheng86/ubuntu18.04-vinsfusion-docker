@@ -31,15 +31,15 @@ cd /root/config/sh/
 echo "vins-rtab.sh execution completed."
 
 # 执行第六个脚本
-echo "surfle.sh"
-cd /root/config/sh/
-./surfle.sh
-echo "vins-rtab.sh execution completed."
+#echo "surfle.sh"
+#cd /root/config/sh/
+#./surfle.sh
+#echo "vins-rtab.sh execution completed."
 
 # 执行第六个脚本
-echo "replace_launch_file.sh"
-cd /root/config/sh/
-./replace_launch_file.sh
+#echo "replace_launch_file.sh"
+#cd /root/config/sh/
+#./replace_launch_file.sh
 
 echo "replace_launch_file.sh execution completed."
 
