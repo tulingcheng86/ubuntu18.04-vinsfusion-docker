@@ -34,8 +34,25 @@ RUN apt-get update && apt-get install -y ros-melodic-rviz
 # 克隆VINS-Fusion到catkin工作空间的src目录下
 RUN mkdir -p $CATKIN_WS/src && \
     cd $CATKIN_WS/src && \
-    git clone https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git
- 
+    git clone https://github.com/tulingcheng86/VINS-Fusion-tlc
+    
+# 克隆yolo_ros包到catkin工作空间的src目录下
+RUN cd $CATKIN_WS/src && \
+    git clone https://github.com/tulingcheng86/yolo_ros_tlc.git
+    
+# 安装ROS依赖项和Python3
+RUN apt-get update && apt-get install -y \
+    ros-melodic-ros-numpy \
+    python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# 升级pip并安装Python依赖项
+RUN pip3 install --upgrade pip && \
+    pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu113 
+
+RUN pip3 install opencv-python==4.5.3.56 && \
+    pip3 install -r /root/catkin_ws/src/yolo_ros_tlc/requirements.txt
+
 # Build VINS-Fusion
 WORKDIR $CATKIN_WS
 ENV TERM xterm
