@@ -4,11 +4,11 @@ docker login
 
 docker tag  myapp:v2   shangyeyuancainai/d435i-fusion-lastest:yolo_ros
 
-shangyeyuancainai/d435i-fusion-lastest:yolo_ros
 
 
 
-docker pull shangyeyuancainai/d435i-fusion-lastest:yolo_ros
+
+docker push shangyeyuancainai/d435i-fusion-lastest:yolo_ros
 
 
 
