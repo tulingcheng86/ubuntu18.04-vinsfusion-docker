@@ -36,7 +36,7 @@ echo "vins-rtab.sh execution completed."
 #./surfle.sh
 #echo "vins-rtab.sh execution completed."
 
-# 执行第六个脚本
+# 执行第七个脚本
 #echo "replace_launch_file.sh"
 #cd /root/config/sh/
 #./replace_launch_file.sh
