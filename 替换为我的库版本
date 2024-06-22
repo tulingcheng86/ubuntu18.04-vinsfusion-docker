@@ -12,7 +12,3 @@ cd catkin_ws/
 catkin build
 roslaunch realsense2_camera rs_fusion_camera_stereo.launch 
 
-
-
-
-
